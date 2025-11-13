@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moja Strona WWW</title>
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-alt: #0f172a;
+      --accent: #6366f1;
+      --accent-soft: rgba(99,102,241,0.15);
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --card: #0b1120;
+      --border: rgba(148,163,184,0.2);
+      --radius-lg: 1.5rem;
+      --radius-md: 1rem;
+      --shadow-soft: 0 24px 60px rgba(15,23,42,0.9);
+      --transition-fast: 180ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Layout */
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(
+        to bottom,
+        rgba(15,23,42,0.92),
+        rgba(15,23,42,0.75),
+        transparent
+      );
+      border-bottom: 1px solid rgba(148,163,184,0.3);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.6rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .logo-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #a5b4fc, #4f46e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      box-shadow: 0 12px 30px rgba(129,140,248,0.65);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text span:first-child {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 0.95rem;
+    }
+
+    .logo-text span:last-child {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+
+    nav a {
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+      transition: background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
+    }
+
+    nav a:hover {
+      background: rgba(15,23,42,0.9);
+      border-color: rgba(148,163,184,0.6);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .nav-cta {
+      display: none;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-top: 1rem;
+    }
+
+    /* Hero */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+      gap: 3rem;
+      align-items: center;
+      padding: 2.5rem 0 3rem;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.6);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.3);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3.1rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      letter-spacing: -0.045em;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #a5b4fc, #22d3ee);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      max-width: 36rem;
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.75rem;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 0.7rem 1.3rem;
+      font-size: 0.9rem;
+      border: 1px solid transparent;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at 20% 0, #e5e7eb, #818cf8);
+      color: #020617;
+      box-shadow: 0 18px 40px rgba(129,140,248,0.85);
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) translateZ(0);
+      box-shadow: 0 26px 60px rgba(129,140,248,0.95);
+    }
+
+    .btn-ghost {
+      border-color: var(--border);
+      color: var(--text-muted);
+      background: rgba(15,23,42,0.85);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(148,163,184,0.9);
+      color: var(--text);
+      transform: translateY(-1px);
+      background: rgba(15,23,42,1);
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-note strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* Hero card (right) */
+
+    .hero-card {
+      background: radial-gradient(circle at top, #111827, #020617 55%, #000);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.1rem 1.3rem;
+      border: 1px solid rgba(148,163,184,0.35);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 15% 0, rgba(129,140,248,0.38), transparent 60%),
+        radial-gradient(circle at 85% 110%, rgba(45,212,191,0.28), transparent 70%);
+      opacity: 0.93;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .hero-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-status {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.7);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .hero-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .hero-mini-nav {
+      display: flex;
+      gap: 0.35rem;
+    }
+
+    .hero-mini-nav span {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.7);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-metric {
+      background: rgba(15,23,42,0.9);
+      border-radius: 0.9rem;
+      padding: 0.6rem 0.7rem;
+      border: 1px solid rgba(148,163,184,0.55);
+      font-size: 0.78rem;
+    }
+
+    .hero-metric-label {
+      color: var(--text-muted);
+      margin-bottom: 0.18rem;
+    }
+
+    .hero-metric-value {
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .hero-metric-pill {
+      font-size: 0.7rem;
+      color: #22c55e;
+      margin-top: 0.18rem;
+    }
+
+    .hero-list {
+      margin-top: 0.4rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed rgba(148,163,184,0.4);
+      display: grid;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-list-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hero-list-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    /* Section wrapper */
+
+    section {
+      padding: 1.5rem 0 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      max-width: 26rem;
+    }
+
+    /* Services */
+
+    .cards {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 720px) {
+      .cards {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .card {
+      background: rgba(15,23,42,0.95);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      box-shadow: 0 12px 30px rgba(15,23,42,0.7);
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, var(--accent-soft), transparent 55%);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(15,23,42,0.95);
+      border-color: rgba(129,140,248,0.9);
+      background: #020617;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 0.9rem;
+      background: radial-gradient(circle at 20% 20%, #a5b4fc, #4f46e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .card-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .card-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .card-meta {
+      font-size: 0.75rem;
+      color: var(--accent);
+    }
+
+    /* About / two-column text */
+
+    .two-col {
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    @media (min-width: 720px) {
+      .two-col {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      }
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+    }
+
+    .pill {
+      font-size: 0.75rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      color: var(--text-muted);
+      background: rgba(15,23,42,0.85);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+      font-size: 0.85rem;
+    }
+
+    .stat {
+      background: rgba(15,23,42,0.9);
+      border-radius: 0.8rem;
+      border: 1px solid rgba(148,163,184,0.5);
+      padding: 0.55rem 0.7rem;
+    }
+
+    .stat span {
+      display: block;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Contact */
+
+    .contact-box {
+      background: rgba(15,23,42,0.96);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.1rem;
+      border: 1px solid rgba(148,163,184,0.45);
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    @media (min-width: 720px) {
+      .contact-box {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        align-items: center;
+      }
+    }
+
+    form {
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.7rem;
+      border: 1px solid rgba(148,163,184,0.6);
+      background: rgba(15,23,42,0.95);
+      color: var(--text);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast),
+        transform var(--transition-fast);
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(129,140,248,0.8);
+      background: #020617;
+      transform: translateY(-1px);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .contact-side {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .contact-side h3 {
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-list {
+      margin-top: 0.6rem;
+      display: grid;
+      gap: 0.3rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .contact-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      width: 4.5rem;
+      flex-shrink: 0;
+    }
+
+    .contact-value {
+      font-size: 0.82rem;
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 0.75rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      border-top: 1px solid rgba(148,163,184,0.35);
+      margin-top: 2rem;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 2px;
+    }
+
+    /* Responsive tweaks */
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.7rem;
+      }
+
+      .hero-card {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        padding-inline: 1rem;
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .nav-cta {
+        display: inline-flex;
+      }
+
+      .hero {
+        padding-top: 2rem;
+      }
+
+      .page {
+        padding-inline: 1rem;
+      }
+
+      .contact-box {
+        padding-inline: 1rem;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-badge">M</div>
+        <div class="logo-text">
+          <span>Moja Strona</span>
+          <span>Nowoczesna wizytówka online</span>
+        </div>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#o-mnie">O mnie</a></li>
+          <li><a href="#oferta">Oferta</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </nav>
+
+      <a href="#kontakt" class="btn btn-primary nav-cta">Napisz do mnie</a>
+    </div>
+  </header>
+
+  <div class="page">
+    <main>
+      <!-- HERO -->
+      <section class="hero" id="start">
+        <div>
+          <div class="hero-tag">
+            <span class="hero-tag-dot"></span>
+            <span>Dostępny na nowe projekty</span>
+          </div>
+          <h1>
+            Tworzę <span>strony internetowe</span><br />
+            dopasowane do Twoich potrzeb.
+          </h1>
+          <p class="hero-subtitle">
+            Nowoczesny design, responsywność i szybkie działanie. Idealne połączenie
+            dla firm, freelancerów i osób, które chcą zaistnieć w sieci.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#kontakt" class="btn btn-primary">
+              Zacznijmy projekt
+              <span>→</span>
+            </a>
+            <a href="#oferta" class="btn btn-ghost">
+              Zobacz, co oferuję
+            </a>
+          </div>
+
+          <p class="hero-note">
+            <strong>Średni czas realizacji:</strong> 7–14 dni &nbsp;•&nbsp;
+            Bez skomplikowanego „technicznego” języka
+          </p>
+        </div>
+
+        <!-- HERO CARD -->
+        <aside class="hero-card" aria-hidden="true">
+          <div class="hero-card-inner">
+            <div class="hero-card-header">
+              <div class="hero-status">
+                <span class="hero-status-dot"></span>
+                <span>Twoja nowa strona</span>
+              </div>
+              <div class="hero-mini-nav">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+
+            <div class="hero-grid">
+              <div class="hero-metric">
+                <div class="hero-metric-label">Czas ładowania</div>
+                <div class="hero-metric-value">0,8 s</div>
+                <div class="hero-metric-pill">Szybka i lekka</div>
+              </div>
+              <div class="hero-metric">
+                <div class="hero-metric-label">Dopasowanie do urządzeń</div>
+                <div class="hero-metric-value">100%</div>
+                <div class="hero-metric-pill">Mobile • Tablet • Desktop</div>
+              </div>
+            </div>
+
+            <div class="hero-list">
+              <div class="hero-list-item">
+                <span class="hero-list-dot"></span>
+                <span>Nowoczesny, czytelny projekt dopasowany do Twojej marki.</span>
+              </div>
+              <div class="hero-list-item">
+                <span class="hero-list-dot"></span>
+                <span>Łatwy kontakt – formularz, mail, social media w jednym miejscu.</span>
+              </div>
+              <div class="hero-list-item">
+                <span class="hero-list-dot"></span>
+                <span>Przygotowanie do SEO, aby klienci mogli Cię znaleźć.</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- OFERTA -->
+      <section id="oferta">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Co mogę dla Ciebie zrobić</h2>
+          </div>
+          <p class="section-subtitle">
+            Od prostej wizytówki, przez portfolio, aż po rozbudowaną stronę firmową.
+            Wszystko w oparciu o przejrzysty kod i nowoczesne standardy.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card-icon">⚡</div>
+            <h3 class="card-title">Strona wizytówka</h3>
+            <p class="card-text">
+              Idealna, jeśli potrzebujesz prostego miejsca w sieci: kilka sekcji,
+              opis oferty, dane kontaktowe. Lekka, szybka, czytelna.
+            </p>
+            <p class="card-meta">Świetna dla lokalnych firm i freelancerów.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">🎨</div>
+            <h3 class="card-title">Portfolio / strona osobista</h3>
+            <p class="card-text">
+              Projektuję strony, które dobrze prezentują Twoje prace, projekty lub
+              doświadczenie. Estetyka i treść skupione na Tobie.
+            </p>
+            <p class="card-meta">Dla twórców, specjalistów i kandydatów do pracy.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">🏢</div>
+            <h3 class="card-title">Strona firmowa</h3>
+            <p class="card-text">
+              Rozbudowana oferta, sekcja „O nas”, referencje, cennik i formularz
+              kontaktowy – wszystko, czego potrzebuje współczesna firma.
+            </p>
+            <p class="card-meta">Opcja rozbudowy o blog lub landing page.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- O MNIE -->
+      <section id="o-mnie">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Kilka słów o współpracy</h2>
+          </div>
+          <p class="section-subtitle">
+            Stawiam na jasną komunikację i prosty proces. Bez zbędnych, skomplikowanych
+            pojęć – przeprowadzę Cię krok po kroku od pomysłu do gotowej strony.
+          </p>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <p style="font-size:0.92rem; margin-bottom:0.5rem;">
+              Na początku porozmawiamy o Twoich potrzebach – czym się zajmujesz,
+              do kogo chcesz dotrzeć i jaki efekt chcesz osiągnąć. Na tej podstawie
+              zaproponuję układ strony, wygląd i treści.
+            </p>
+            <p style="font-size:0.92rem;">
+              Otrzymasz też krótką instrukcję, jak samodzielnie wprowadzać drobne
+              zmiany (np. teksty, zdjęcia), abyś nie był uzależniony od specjalistów
+              przy każdej małej poprawce.
+            </p>
+
+            <div class="pill-list">
+              <span class="pill">Przejrzysty kod</span>
+              <span class="pill">Responsywny design</span>
+              <span class="pill">Podstawowe SEO</span>
+              <span class="pill">Wsparcie po wdrożeniu</span>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-value">7–14 dni</span>
+              <span class="stat-label">Standardowy czas realizacji projektu</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">1:1</span>
+              <span class="stat-label">Bezpośredni kontakt przy całym projekcie</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">Prosto</span>
+              <span class="stat-label">Bez technicznego żargonu i komplikacji</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">Elastycznie</span>
+              <span class="stat-label">Możliwość rozbudowy strony w przyszłości</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KONTAKT -->
+      <section id="kontakt">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Porozmawiajmy o Twojej stronie</h2>
+          </div>
+          <p class="section-subtitle">
+            Napisz kilka zdań o swoim pomyśle, a odezwę się z propozycją kolejnych
+            kroków i orientacyjną wyceną. Bez zobowiązań.
+          </p>
+        </div>
+
+        <div class="contact-box">
+          <form id="contactForm">
+            <div>
+              <label for="name">Imię i nazwisko / nazwa firmy</label>
+              <input type="text" id="name" name="name" placeholder="np. Anna Kowalska / Studio XYZ" required />
+            </div>
+            <div>
+              <label for="email">Adres e-mail</label>
+              <input type="email" id="email" name="email" placeholder="twoj@mail.pl" required />
+            </div>
+            <div>
+              <label for="message">Opisz krótko swój pomysł</label>
+              <textarea id="message" name="message" placeholder="Napisz, jakiej strony potrzebujesz, dla kogo ma być, co jest dla Ciebie najważniejsze..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
+            <p id="formStatus" style="font-size:0.78rem; color:var(--text-muted); margin-top:0.25rem;"></p>
+          </form>
+
+          <div class="contact-side">
+            <h3>Inne formy kontaktu</h3>
+            <p>
+              Wolisz napisać bezpośrednio lub porozmawiać? Śmiało – skorzystaj
+              z danych poniżej.
+            </p>
+            <div class="contact-list">
+              <div class="contact-item">
+                <span class="contact-label">E-mail</span>
+                <span class="contact-value">
+                  <a href="mailto:kontakt@twojadomena.pl">kontakt@twojadomena.pl</a>
+                </span>
+              </div>
+              <div class="contact-item">
+                <span class="contact-label">Telefon</span>
+                <span class="contact-value">
+                  <a href="tel:+48123456789">+48 123 456 789</a>
+                </span>
+              </div>
+              <div class="contact-item">
+                <span class="contact-label">Miasto</span>
+                <span class="contact-value">Twoje miasto / online</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© <span id="year"></span> Moja Strona • Wszystkie prawa zastrzeżone.</span>
+      <span>Projekt do edycji – możesz dopasować treści i kolory do siebie.</span>
+    </footer>
+  </div>
+
+  <script>
+    // Rok w stopce
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // "Wysyłanie" formularza – tylko symulacja na froncie
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const status = document.getElementById("formStatus");
+      status.textContent =
+        "To tylko demo. Tutaj możesz podpiąć swój system e-mail / backend 🙂";
+    });
+  </script>
+</body>
+</html
